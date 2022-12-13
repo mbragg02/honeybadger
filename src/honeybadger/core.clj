@@ -82,7 +82,7 @@
 (defn- error-patch [notifiable]
   {:error (error-map notifiable)})
 
-(defn- metadata-patch [{:keys [tags context component action request]}]
+(defn- metadata-patch [{:keys [tags context component action request fingerprint]}]
   (let [{:keys [method url params session]} request]
     {:error   {:tags tags}
      :request {:url url
@@ -91,6 +91,7 @@
                :params params
                :context (or context {}) ; displays differently if nil
                :session session
+               :fingerprint fingerprint
                :cgi-data (some->> method
                                   name
                                   str/upper-case
@@ -127,6 +128,7 @@
       (->> (deep-merge {:metadata {:tags #{}
                                    :request {}
                                    :context {}
+                                   :fingerprint nil
                                    :component nil
                                    :action nil}}))))
 
