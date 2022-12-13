@@ -84,14 +84,14 @@
 
 (defn- metadata-patch [{:keys [tags context component action request fingerprint]}]
   (let [{:keys [method url params session]} request]
-    {:error   {:tags tags}
+    {:error   {:tags tags
+               :fingerprint fingerprint}
      :request {:url url
                :component component
                :action action
                :params params
                :context (or context {}) ; displays differently if nil
                :session session
-               :fingerprint fingerprint
                :cgi-data (some->> method
                                   name
                                   str/upper-case
